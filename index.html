@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappyFace - Эволюция смартфонов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0f;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(1) {
+            top: 0;
+            left: 25%;
+            width: 384px;
+            height: 384px;
+            background: rgba(147, 51, 234, 0.2);
+        }
+
+        .bg-circle:nth-child(2) {
+            bottom: 0;
+            right: 25%;
+            width: 384px;
+            height: 384px;
+            background: rgba(37, 99, 235, 0.2);
+            animation-delay: 1s;
+        }
+
+        .bg-circle:nth-child(3) {
+            top: 50%;
+            left: 50%;
+            width: 384px;
+            height: 384px;
+            background: rgba(219, 39, 119, 0.1);
+            animation-delay: 2s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 24px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #facc15, #ec4899, #9333ea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.5);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-subtext {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+            font-size: 14px;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 10;
+            padding: 48px 48px 24px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            margin-bottom: 24px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #facc15, #ec4899, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .presentation {
+            position: relative;
+            z-index: 10;
+            padding: 48px;
+        }
+
+        .presentation-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .phone-display {
+            position: relative;
+        }
+
+        .phone-container {
+            position: relative;
+            aspect-ratio: 4/5;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .phone-badge {
+            position: absolute;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-family: monospace;
+            z-index: 5;
+        }
+
+        .year-badge {
+            top: 24px;
+            left: 24px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .tier-badge {
+            top: 24px;
+            right: 24px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .phone-image {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5));
+            transition: all 0.5s ease;
+        }
+
+        .phone-glow {
+            position: absolute;
+            inset: 0;
+            opacity: 0.15;
+            filter: blur(80px);
+            transition: background 0.5s ease;
+        }
+
+        .specs-section {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .model-number {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .phone-name {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 8px;
+        }
+
+        .phone-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 16px;
+        }
+
+        .phone-description {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .power-indicator {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .power-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .power-label span:first-child {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .power-label span:last-child {
+            font-weight: 700;
+        }
+
+        .power-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .power-fill {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 1s ease-out, background 0.5s ease;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .spec-card {
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: background 0.3s;
+        }
+
+        .spec-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .spec-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+
+        .spec-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .features-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .features-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .feature-tag {
+            padding: 6px 14px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-top: 16px;
+        }
+
+        .nav-button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: white;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .next-button {
+            flex: 1;
+            padding: 14px 24px;
+            border-radius: 9999px;
+            background: linear-gradient(to right, #facc15, #ec4899, #9333ea);
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.2s;
+            border: none;
+            color: white;
+            font-size: 15px;
+        }
+
+        .next-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .progress-dot {
+            flex: 1;
+            height: 6px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .progress-dot.active {
+            background: linear-gradient(to right, #facc15, #ec4899);
+        }
+
+        .progress-dot:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline {
+            max-width: 1280px;
+            margin: 64px auto 0;
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .timeline-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .timeline-header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .timeline-list {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+        }
+
+        .timeline-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .timeline-item {
+            flex-shrink: 0;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .timeline-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-item.active {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .timeline-year {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+        }
+
+        .timeline-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .timeline-tier {
+            font-size: 12px;
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
+        .evolution-section {
+            position: relative;
+            z-index: 10;
+            padding: 64px 48px;
+        }
+
+        .evolution-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-header h3 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+        }
+
+        .chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 8px;
+            height: 256px;
+        }
+
+        .chart-bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-bar-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        .chart-value {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            overflow: hidden;
+            transition: height 0.8s ease-out;
+        }
+
+        .chart-bar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .chart-year {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: monospace;
+            margin-top: 8px;
+        }
+
+        .chart-name {
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .history-section {
+            position: relative;
+            z-index: 10;
+            padding: 64px 48px;
+        }
+
+        .history-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .history-card {
+            padding: 24px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            transition: transform 0.3s;
+        }
+
+        .history-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .history-card:nth-child(1) {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+        }
+
+        .history-card:nth-child(2) {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(249, 115, 22, 0.1));
+        }
+
+        .history-card:nth-child(3) {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(6, 182, 212, 0.1));
+        }
+
+        .history-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .history-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .history-card p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .reviews-section {
+            position: relative;
+            z-index: 10;
+            padding: 64px 48px;
+        }
+
+        .reviews-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .review-card {
+            padding: 24px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            transition: background 0.3s;
+        }
+
+        .review-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .review-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #facc15, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .review-info {
+            flex: 1;
+        }
+
+        .review-name {
+            font-weight: 700;
+        }
+
+        .review-model {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .star {
+            color: #facc15;
+        }
+
+        .star.empty {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .review-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        footer {
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 32px 48px;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .footer-logo span:first-child {
+            font-size: 24px;
+        }
+
+        .footer-logo span:last-child {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-hint {
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 24px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero {
+                padding: 32px 24px 16px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .presentation {
+                padding: 32px 24px;
+            }
+
+            .presentation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .phone-name {
+                font-size: 48px;
+            }
+
+            .evolution-section,
+            .history-section,
+            .reviews-section {
+                padding: 48px 24px;
+            }
+
+            .history-grid,
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">😊</div>
+            <div>
+                <div class="logo-text">HappyFace</div>
+                <div class="logo-subtext">Since 2005</div>
+            </div>
+        </div>
+        <nav>
+            <a href="#models">Модели</a>
+            <a href="#tech">Технологии</a>
+            <a href="#about">О бренде</a>
+            <a href="#reviews">Отзывы</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Презентация линейки 2005 — 2026</span>
+        </div>
+        <h1>Эволюция <span class="gradient-text">HappyFace</span></h1>
+        <p>От простой кнопочной звонилки до смартфона будущего. 9 поколений инноваций.</p>
+    </section>
+
+    <section id="models" class="presentation">
+        <div class="presentation-grid">
+            <div class="phone-display">
+                <div class="phone-container">
+                    <div class="phone-badge year-badge" id="yearBadge">2005</div>
+                    <div class="phone-badge tier-badge" id="tierBadge">Кнопочный</div>
+                    <img src="https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/1bd69481b-a0a3-4547-b615-a498c713c00d.png" alt="HappyFace 1" class="phone-image" id="phoneImage">
+                    <div class="phone-glow" id="phoneGlow"></div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <div>
+                    <div class="model-number" id="modelNumber">МОДЕЛЬ 01</div>
+                    <h2 class="phone-name" id="phoneName">HappyFace 1</h2>
+                    <div class="phone-subtitle" id="phoneSubtitle">Начало пути</div>
+                    <p class="phone-description" id="phoneDescription">Простая кнопочная звонилка. Ничего лишнего — только связь.</p>
+                </div>
+
+                <div class="power-indicator">
+                    <div class="power-label">
+                        <span>Мощность</span>
+                        <span id="powerValue">10%</span>
+                    </div>
+                    <div class="power-bar">
+                        <div class="power-fill" id="powerFill" style="width: 10%"></div>
+                    </div>
+                </div>
+
+                <div class="specs-grid" id="specsGrid"></div>
+
+                <div class="features-section">
+                    <div class="features-label">Ключевые возможности</div>
+                    <div class="features-list" id="featuresList"></div>
+                </div>
+
+                <div class="navigation">
+                    <button class="nav-button" id="prevButton">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <button class="next-button" id="nextButton">Следующая модель →</button>
+                </div>
+
+                <div class="progress-dots" id="progressDots"></div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-header">
+                <h3>Хронология</h3>
+                <p>Нажмите на год, чтобы перейти к модели</p>
+            </div>
+            <div class="timeline-list" id="timelineList"></div>
+        </div>
+    </section>
+
+    <section id="tech" class="evolution-section">
+        <div class="evolution-container">
+            <div class="section-header">
+                <h3>Эволюция мощности</h3>
+                <p>Рост производительности от поколения к поколению</p>
+            </div>
+            <div class="chart-container">
+                <div class="chart" id="chart"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="history-section">
+        <div class="history-container">
+            <div class="section-header">
+                <h3>История компании</h3>
+                <p>Путь от маленькой мастерской до мирового бренда</p>
+            </div>
+            <div class="history-grid">
+                <div class="history-card">
+                    <div class="history-icon"></div>
+                    <h4>2005 — Основание</h4>
+                    <p>Группа энтузиастов создала первую кнопочную звонилку HappyFace 1. Простая, надёжная, доступная.</p>
+                </div>
+                <div class="history-card">
+                    <div class="history-icon">💡</div>
+                    <h4>2010 — Прорыв</h4>
+                    <p>Выпуск HappyFace 3 — первого полноценного смартфона с сенсорным экраном и App Store.</p>
+                </div>
+                <div class="history-card">
+                    <div class="history-icon">🌟</div>
+                    <h4>2026 — Будущее</h4>
+                    <p>HappyFace 9 — смартфон будущего с голографическим дисплеем и AI-ассистентом.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="reviews-section">
+        <div class="reviews-container">
+            <div class="section-header">
+                <h3>Отзывы пользователей</h3>
+                <p>Что говорят наши клиенты</p>
+            </div>
+            <div class="reviews-grid" id="reviewsGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">
+            <span>😊</span>
+            <span>HappyFace</span>
+        </div>
+        <div>© 2005–2026 HappyFace Technologies. Все права защищены.</div>
+        <div class="footer-hint">Используйте ← → для навигации</div>
+    </footer>
+
+    <script>
+        const phones = [
+            {
+                id: 1,
+                year: 2005,
+                name: 'HappyFace 1',
+                subtitle: 'Начало пути',
+                tier: 'Кнопочный',
+                tierColor: 'linear-gradient(to right, #6b7280, #374151)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/1bd69481b-a0a3-4547-b615-a498c713c00d.png',
+                specs: {
+                    'Экран': '1.5" монохромный',
+                    'Батарея': '7 дней',
+                    'Память': '128 КБ',
+                    'Связь': '2G GSM',
+                },
+                features: ['Звонки', 'SMS', 'Калькулятор', 'Змейка'],
+                description: 'Простая кнопочная звонилка. Ничего лишнего — только связь.',
+                power: 10,
+            },
+            {
+                id: 2,
+                year: 2008,
+                name: 'HappyFace 2',
+                subtitle: 'Первый смартфон',
+                tier: 'Базовый',
+                tierColor: 'linear-gradient(to right, #3b82f6, #1d4ed8)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/167e31c72-1b3f-4b57-b0a4-7fed1020d9c9.png',
+                specs: {
+                    'Экран': '2.8" TFT',
+                    'Процессор': '200 МГц',
+                    'Память': '64 МБ',
+                    'Камера': '2 МП',
+                },
+                features: ['QWERTY клавиатура', 'Email', 'Java-игры', 'MP3'],
+                description: 'Первый смартфон HappyFace с физической QWERTY-клавиатурой и стилусом.',
+                power: 25,
+            },
+            {
+                id: 3,
+                year: 2010,
+                name: 'HappyFace 3',
+                subtitle: 'Средний уровень',
+                tier: 'Средний',
+                tierColor: 'linear-gradient(to right, #06b6d4, #0891b2)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/1952bf0d0-12c6-4686-8632-e551e869bef9.png',
+                specs: {
+                    'Экран': '3.5" сенсорный',
+                    'Процессор': '600 МГц',
+                    'Память': '256 МБ',
+                    'Камера': '5 МП',
+                },
+                features: ['Wi-Fi', 'GPS', 'App Store', 'Видео 720p'],
+                description: 'Сенсорный экран, Wi-Fi и GPS — смартфон становится по-настоящему умным.',
+                power: 40,
+            },
+            {
+                id: 4,
+                year: 2012,
+                name: 'HappyFace 4',
+                subtitle: 'Средний+',
+                tier: 'Средний+',
+                tierColor: 'linear-gradient(to right, #14b8a6, #0d9488)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/1fe78a91f-6416-4f37-872b-600a03b67c3b.png',
+                specs: {
+                    'Экран': '4.7" HD IPS',
+                    'Процессор': '1.2 ГГц 4-ядра',
+                    'Память': '1 ГБ',
+                    'Связь': '4G LTE',
+                },
+                features: ['HD дисплей', '4G LTE', 'NFC', 'Облако'],
+                description: 'HD-экран и поддержка 4G — интернет в кармане на новой скорости.',
+                power: 55,
+            },
+            {
+                id: 5,
+                year: 2015,
+                name: 'HappyFace 5',
+                subtitle: 'Флагман',
+                tier: 'Флагман',
+                tierColor: 'linear-gradient(to right, #eab308, #ea580c)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/19e179df2-3663-4f47-b812-63830d71d6d2.png',
+                specs: {
+                    'Экран': '5.2" Full HD',
+                    'Процессор': '2.5 ГГц 8-ядер',
+                    'Память': '3 ГБ',
+                    'Камера': '13 МП',
+                },
+                features: ['Отпечаток пальца', 'NFC-оплата', 'USB-C', 'Быстрая зарядка'],
+                description: 'Настоящий флагман: металл, сканер отпечатка и отличная камера.',
+                power: 70,
+            },
+            {
+                id: 6,
+                year: 2017,
+                name: 'HappyFace 6',
+                subtitle: 'Безрамочный',
+                tier: 'Средний+',
+                tierColor: 'linear-gradient(to right, #a855f7, #7e22ce)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/1e8afd33b-4e5f-4a4d-98d0-c378d3919caa.png',
+                specs: {
+                    'Экран': '5.8" AMOLED',
+                    'Процессор': '2.3 ГГц 8-ядер',
+                    'Память': '4 ГБ',
+                    'Камера': '12+5 МП',
+                },
+                features: ['Edge-to-edge', 'Двойная камера', 'Face ID', 'AR'],
+                description: 'Безрамочный дизайн и двойная камера — новая эра смартфонов.',
+                power: 75,
+            },
+            {
+                id: 7,
+                year: 2019,
+                name: 'HappyFace 7',
+                subtitle: 'Топ-флагман',
+                tier: 'Флагман',
+                tierColor: 'linear-gradient(to right, #ec4899, #e11d48)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/1d1de3ff1-dc29-4b8c-b702-85ad126d9ff1.png',
+                specs: {
+                    'Экран': '6.4" Super AMOLED',
+                    'Процессор': '2.84 ГГц',
+                    'Память': '8 ГБ',
+                    'Камера': '48+16+12 МП',
+                },
+                features: ['5G', 'Тройная камера', 'In-display FP', 'NFC'],
+                description: 'Тройная камера, 5G и экран со встроенным сканером отпечатка.',
+                power: 85,
+            },
+            {
+                id: 8,
+                year: 2022,
+                name: 'HappyFace 8',
+                subtitle: 'Ультра-флагман',
+                tier: 'Ультра',
+                tierColor: 'linear-gradient(to right, #10b981, #059669)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/1040e1f76-3600-4727-86fb-c5111f68432e.png',
+                specs: {
+                    'Экран': '6.7" LTPO 120Hz',
+                    'Процессор': '3.2 ГГц 4нм',
+                    'Память': '12 ГБ',
+                    'Камера': '108+50+12 МП',
+                },
+                features: ['120Hz AMOLED', '108 МП камера', '120W зарядка', 'IP68'],
+                description: '108 МП камера, 120W зарядка и премиальная керамика.',
+                power: 92,
+            },
+            {
+                id: 9,
+                year: 2026,
+                name: 'HappyFace 9',
+                subtitle: 'Будущее здесь',
+                tier: 'Ультра+',
+                tierColor: 'linear-gradient(to right, #8b5cf6, #d946ef, #ec4899)',
+                image: 'https://image.qwenlm.ai/public_source/699a2e65-9889-44e6-bbd3-916883d0bdff/12b134148-1794-4adc-afbb-69c65505a4c9.png',
+                specs: {
+                    'Экран': '6.9" Holographic',
+                    'Процессор': 'AI Neural 5нм',
+                    'Память': '24 ГБ',
+                    'Камера': '200 МП + LiDAR',
+                },
+                features: ['AI-ассистент', 'Голография', 'Спутник', 'Беспроводная зарядка 2.0'],
+                description: 'Искусственный интеллект, голографический дисплей и спутниковая связь.',
+                power: 100,
+            },
+        ];
+
+        const reviews = [
+            {
+                name: 'Алексей К.',
+                model: 'HappyFace 5',
+                text: 'Использую уже 2 года. Камера отличная, батарея держит весь день. Лучший телефон в своей цене!',
+                rating: 5,
+            },
+            {
+                name: 'Мария С.',
+                model: 'HappyFace 7',
+                text: 'Перешла с 5-й модели. Разница колоссальная! 5G работает отлично, камера просто космос.',
+                rating: 5,
+            },
+            {
+                name: 'Дмитрий В.',
+                model: 'HappyFace 3',
+                text: 'Надёжный смартфон за свои деньги. Пользуюсь каждый день уже 3 года — никаких проблем.',
+                rating: 4,
+            },
+            {
+                name: 'Елена П.',
+                model: 'HappyFace 8',
+                text: '108 МП камера — это что-то невероятное! Фотографии как с профессиональной камеры.',
+                rating: 5,
+            },
+        ];
+
+        let currentIndex = 0;
+
+        function updateDisplay() {
+            const phone = phones[currentIndex];
+
+            document.getElementById('yearBadge').textContent = phone.year;
+            document.getElementById('tierBadge').textContent = phone.tier;
+            document.getElementById('tierBadge').style.background = phone.tierColor;
+            document.getElementById('phoneImage').src = phone.image;
+            document.getElementById('phoneImage').alt = phone.name;
+            document.getElementById('phoneGlow').style.background = phone.tierColor;
+            document.getElementById('modelNumber').textContent = `МОДЕЛЬ ${String(phone.id).padStart(2, '0')}`;
+            document.getElementById('phoneName').textContent = phone.name;
+            document.getElementById('phoneSubtitle').textContent = phone.subtitle;
+            document.getElementById('phoneDescription').textContent = phone.description;
+            document.getElementById('powerValue').textContent = `${phone.power}%`;
+            document.getElementById('powerFill').style.width = `${phone.power}%`;
+            document.getElementById('powerFill').style.background = phone.tierColor;
+
+            const specsGrid = document.getElementById('specsGrid');
+            specsGrid.innerHTML = '';
+            Object.entries(phone.specs).forEach(([key, value]) => {
+                const specCard = document.createElement('div');
+                specCard.className = 'spec-card';
+                specCard.innerHTML = `
+                    <div class="spec-label">${key}</div>
+                    <div class="spec-value">${value}</div>
+                `;
+                specsGrid.appendChild(specCard);
+            });
+
+            const featuresList = document.getElementById('featuresList');
+            featuresList.innerHTML = '';
+            phone.features.forEach(feature => {
+                const tag = document.createElement('span');
+                tag.className = 'feature-tag';
+                tag.textContent = feature;
+                featuresList.appendChild(tag);
+            });
+
+            const progressDots = document.getElementById('progressDots');
+            progressDots.innerHTML = '';
+            phones.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `progress-dot ${i === currentIndex ? 'active' : ''}`;
+                dot.onclick = () => goTo(i);
+                progressDots.appendChild(dot);
+            });
+
+            const timelineList = document.getElementById('timelineList');
+            timelineList.innerHTML = '';
+            phones.forEach((p, i) => {
+                const item = document.createElement('div');
+                item.className = `timeline-item ${i === currentIndex ? 'active' : ''}`;
+                item.onclick = () => goTo(i);
+                item.innerHTML = `
+                    <div class="timeline-year">${p.year}</div>
+                    <div class="timeline-name">${p.name}</div>
+                    <div class="timeline-tier" style="background: ${p.tierColor}; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${p.tier}</div>
+                `;
+                timelineList.appendChild(item);
+            });
+        }
+
+        function goTo(idx) {
+            if (idx === currentIndex) return;
+            currentIndex = idx;
+            updateDisplay();
+        }
+
+        function next() {
+            goTo((currentIndex + 1) % phones.length);
+        }
+
+        function prev() {
+            goTo((currentIndex - 1 + phones.length) % phones.length);
+        }
+
+        document.getElementById('nextButton').onclick = next;
+        document.getElementById('prevButton').onclick = prev;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') next();
+            if (e.key === 'ArrowLeft') prev();
+        });
+
+        const chart = document.getElementById('chart');
+        phones.forEach((phone, i) => {
+            const container = document.createElement('div');
+            container.className = 'chart-bar-container';
+            container.innerHTML = `
+                <div class="chart-bar-wrapper">
+                    <div class="chart-value">${phone.power}%</div>
+                    <div class="chart-bar" style="height: 0%; background: ${phone.tierColor}"></div>
+                </div>
+                <div class="chart-year">${phone.year}</div>
+                <div class="chart-name">${phone.name}</div>
+            `;
+            chart.appendChild(container);
+
+            setTimeout(() => {
+                container.querySelector('.chart-bar').style.height = `${phone.power}%`;
+            }, 100 + i * 100);
+        });
+
+        const reviewsGrid = document.getElementById('reviewsGrid');
+        reviews.forEach(review => {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            const stars = Array.from({length: 5}, (_, i) => 
+                `<span class="star ${i < review.rating ? '' : 'empty'}">★</span>`
+            ).join('');
+            card.innerHTML = `
+                <div class="review-header">
+                    <div class="review-avatar">${review.name[0]}</div>
+                    <div class="review-info">
+                        <div class="review-name">${review.name}</div>
+                        <div class="review-model">${review.model}</div>
+                        <div class="review-rating">${stars}</div>
+                    </div>
+                </div>
+                <p class="review-text">${review.text}</p>
+            `;
+            reviewsGrid.appendChild(card);
+        });
+
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+            document.querySelector('.bg-animation').appendChild(particle);
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>
+
