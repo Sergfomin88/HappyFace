@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Страница не найдена</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(1) {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(239, 68, 68, 0.15);
+            animation-delay: 0s;
+        }
+
+        .bg-circle:nth-child(2) {
+            bottom: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(124, 58, 237, 0.15);
+            animation-delay: 2s;
+        }
+
+        .bg-circle:nth-child(3) {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: rgba(236, 72, 153, 0.1);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: particleFloat 10s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: clamp(120px, 20vw, 280px);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            position: relative;
+            color: #fff;
+            letter-spacing: -10px;
+            animation: glitch 3s infinite;
+        }
+
+        .error-code::before,
+        .error-code::after {
+            content: '404';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .error-code::before {
+            color: #ef4444;
+            animation: glitch-1 2s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            transform: translate(-2px, -2px);
+        }
+
+        .error-code::after {
+            color: #06b6d4;
+            animation: glitch-2 2s infinite;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            transform: translate(2px, 2px);
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 1px); }
+            94% { transform: translate(2px, -1px); }
+            96% { transform: translate(-1px, -2px); }
+            98% { transform: translate(1px, 2px); }
+        }
+
+        @keyframes glitch-1 {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-5px, 0); }
+            94% { transform: translate(5px, 0); }
+            96% { transform: translate(-3px, 0); }
+            98% { transform: translate(3px, 0); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(5px, 0); }
+            94% { transform: translate(-5px, 0); }
+            96% { transform: translate(3px, 0); }
+            98% { transform: translate(-3px, 0); }
+        }
+
+        .error-title {
+            font-size: clamp(24px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ef4444, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .error-description {
+            font-size: clamp(16px, 2vw, 22px);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .error-description strong {
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        .status-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 24px 32px;
+            margin-bottom: 40px;
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .status-value.danger {
+            color: #ef4444;
+        }
+
+        .status-value.warning {
+            color: #f59e0b;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.red {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+
+        .status-dot.yellow {
+            background: #f59e0b;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ef4444, #ec4899);
+            color: white;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .countdown {
+            margin-top: 40px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .countdown span {
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .warning-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+            0%, 90%, 100% { transform: rotate(0); }
+            92% { transform: rotate(-5deg); }
+            94% { transform: rotate(5deg); }
+            96% { transform: rotate(-3deg); }
+            98% { transform: rotate(3deg); }
+        }
+
+        @media (max-width: 768px) {
+            .error-code {
+                letter-spacing: -5px;
+            }
+            
+            .status-box {
+                padding: 16px 20px;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(239, 68, 68, 0.3);
+            animation: scanline 4s linear infinite;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <div class="scanline"></div>
+
+    <div class="container">
+        <div class="warning-icon">⚠️</div>
+        
+        <div class="error-code">404</div>
+        
+        <h1 class="error-title">Страница не найдена</h1>
+        
+        <p class="error-description">
+            <strong>Компания больше не существует.</strong><br>
+            Домен больше не годен к использованию. Все данные были удалены с серверов.
+        </p>
+
+        <div class="status-box">
+            <div class="status-row">
+                <span class="status-label">Статус домена</span>
+                <span class="status-value danger">
+                    <span class="status-dot red"></span>
+                    НЕАКТИВЕН
+                </span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Компания</span>
+                <span class="status-value danger">
+                    <span class="status-dot red"></span>
+                    ЛИКВИДИРОВАНА
+                </span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Сервер</span>
+                <span class="status-value warning">
+                    <span class="status-dot yellow"></span>
+                    ОТКЛЮЧЁН
+                </span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Последний доступ</span>
+                <span class="status-value" style="color: #facc15;">26.06.2026 в 20:00</span>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-primary" onclick="goBack()">
+                ← Вернуться назад
+            </button>
+            <button class="btn btn-secondary" onclick="goHome()">
+                🏠 На главную
+            </button>
+        </div>
+
+        <div class="countdown">
+            Автоматическое перенаправление через <span id="timer">10</span> сек.
+        </div>
+    </div>
+
+    <script>
+        function createParticles() {
+            const bg = document.querySelector('.bg-animation');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 7) + 's';
+                bg.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        let timeLeft = 10;
+        const timerEl = document.getElementById('timer');
+        
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerEl.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                goBack();
+            }
+        }, 1000);
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        function goHome() {
+            window.location.href = '/';
+        }
+
+        console.log('%c⚠️ ОШИБКА 404', 'color: #ef4444; font-size: 24px; font-weight: bold;');
+        console.log('%cКомпания ликвидирована. Домен неактивен.', 'color: #f59e0b; font-size: 14px;');
+        console.log('%cПоследний доступ: 26.06.2026 в 20:00', 'color: #facc15; font-size: 12px;');
+        console.log('%cВсе данные удалены без возможности восстановления.', 'color: #888; font-size: 12px;');
+    </script>
+</body>
+</html>
